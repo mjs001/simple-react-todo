@@ -1,9 +1,10 @@
 import React, { useState } from "react";
+import IndTodo from "./IndTodo";
 
 export default function Todos() {
   const [inputTodo, setInputTodo] = useState("");
-  const [todo, setTodo] = useState([{ todo: "Buy Milk" }]);
-
+  const [todo, setTodo] = useState(["Buy Milk"]);
+  console.log(todo);
   function handleOnChange(e) {
     const { value } = e.target;
     setInputTodo(value);
@@ -17,8 +18,16 @@ export default function Todos() {
   }
 
   function addTodo() {
-    setTodo((prev) => [...prev, { todo: inputTodo }]);
+    setTodo((prev) => [...prev, inputTodo]);
     setInputTodo("");
+  }
+
+  function deleteItem(id) {
+    setTodo((prev) => {
+      return prev.filter((todo, index) => {
+        return index !== id;
+      });
+    });
   }
 
   return (
@@ -42,9 +51,10 @@ export default function Todos() {
         </button>
       </form>
       <ul key={0}>
-        {todo.map((todo) => (
-          <li key={todo.id}>{todo.todo}</li>
+        {todo.map((todo, index) => (
+          <IndTodo key={index} id={index} todo={todo} checked={deleteItem} />
         ))}
+        {console.log(todo)}
       </ul>
     </div>
   );
